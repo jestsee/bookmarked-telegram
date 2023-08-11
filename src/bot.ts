@@ -7,7 +7,7 @@ export function startBot() {
   if (!botToken) return
 
   const bot = new Telegraf(botToken)
-  bot.start((ctx) => ctx.reply("Welcome"))
+  bot.start((ctx) => ctx.reply("Welcome!"))
   bot.help((ctx) => ctx.reply("Send me a sticker"))
   bot.on(message("sticker"), (ctx) => ctx.reply("👍"))
   bot.hears("hey", (ctx) => ctx.reply("Hey there"))

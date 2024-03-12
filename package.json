@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "ts-node ./src/index.ts",
-    "dev": "npx nodemon start"
+    "dev": "npx nodemon ./src/index.ts"
   },
   "devDependencies": {
     "@tsconfig/node-lts": "^18.12.5",

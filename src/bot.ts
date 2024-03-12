@@ -1,11 +1,8 @@
 import { Telegraf } from "telegraf";
 import "dotenv/config";
+import { commands } from "./commands";
+import { BOT_TOKEN } from "./config";
 
-const botToken = process.env.BOT_TOKEN;
+export const bot = new Telegraf(BOT_TOKEN);
 
-if (!botToken) {
-  console.log("Bot token doesn't exist");
-  process.exit();
-}
-
-export const bot = new Telegraf(botToken);
+bot.telegram.setMyCommands(commands);

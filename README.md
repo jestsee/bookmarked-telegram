@@ -5,8 +5,8 @@
 ### Authentication
 
 - [x] Display authentication menu
-- [ ] Logic for authentication menu
-- [ ] Redirect to web
+- [x] Redirect to web
+- [ ] Accept redirect url from web
 - [ ] Save session to telegraf
 - [ ] Read session
 

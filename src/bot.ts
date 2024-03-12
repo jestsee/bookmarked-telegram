@@ -24,28 +24,31 @@ export function startBot() {
   bot.on(message("text"), (ctx) => {
     const message = ctx.message.text
 
-    // TODO isContainTweetUrl nya keknya bisa di taroh di kelas?
+    /*
+     *  Mode
+     */
     if (isContainTweetUrl(message)) {
       state.mode({ state: StateEnum.BOOKMARK, payload: { message } })
-
-      // check if it's containing #thread or #tweet
-      if (!state.bookmark.type) {
-        ctx.reply(commandMessage.tweetType, tweetTypeOptions)
-      }
-
-      // check if it's containing tags
-      if (!state.bookmark.type && state.bookmark.tags.length === 0) {
-        ctx.reply(commandMessage.tags)
-      }
-
-      // TODO kalo type sama tagsnya ada maka langsung proses
-
-      state.bookmark.log()
     }
+    state.bookmark.log()
+    console.log({ a: state.state.toString() })
 
-    // not containing tweet link
-    else {
-      console.log(JSON.stringify(ctx.message))
+    /*
+     *  Process
+     */
+
+    // bookmark
+    if (state.state === StateEnum.BOOKMARK) {
+      const { attribute: uncompleteAttribute } =
+        state.bookmark.isPayloadCompleted()
+
+      if (uncompleteAttribute === "type") {
+        return ctx.reply(commandMessage.tweetType, tweetTypeOptions)
+      }
+
+      if (uncompleteAttribute === "tags") {
+        return ctx.reply(commandMessage.tags)
+      }
     }
   })
 
@@ -53,22 +56,17 @@ export function startBot() {
     const resp = ctx.callbackQuery
     const text = (resp.message as Message.TextMessage).text
 
-    switch (text) {
-      case commandMessage.tweetType:
+    // bookmark
+    if (state.state === StateEnum.BOOKMARK) {
+      // set type
+      if (text === commandMessage.tweetType) {
         state.bookmark.setType(resp.data as TweetType)
-        break
-
-      default:
-        break
-    }
-
-    state.bookmark.log()
-
-    // check if it's containing tags
-    if (state.bookmark.type && state.bookmark.tags.length === 0) {
-      ctx.editMessageText(commandMessage.tags)
-    } else {
-      ctx.editMessageText("aha")
+      }
+      // ask for tags
+      if (state.bookmark.type && state.bookmark.tags.length === 0) {
+        return ctx.editMessageText(commandMessage.tags)
+      }
+      return ctx.editMessageText("aha")
     }
   })
 

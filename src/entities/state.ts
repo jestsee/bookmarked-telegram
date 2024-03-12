@@ -1,8 +1,8 @@
 import { Bookmark } from "."
 
 export enum StateEnum {
-  IDLE,
-  BOOKMARK,
+  IDLE = "idle",
+  BOOKMARK = "bookmark",
 }
 
 type ModePayload =
@@ -26,6 +26,7 @@ export class State {
   }
 
   mode(val: ModePayload) {
+    this.state = val.state
     switch (val.state) {
       case StateEnum.BOOKMARK:
         this.bookmark.reset()

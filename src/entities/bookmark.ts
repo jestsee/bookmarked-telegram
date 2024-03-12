@@ -1,3 +1,5 @@
+import { NarrowedContext, Context } from "telegraf"
+import { Update, Message } from "telegraf/types"
 import { Regex } from "../utils/regex"
 
 export type TweetType = "tweet" | "thread"
@@ -50,7 +52,12 @@ export class Bookmark {
   }
 
   isPayloadCompleted() {
-    return this.tweet && this.type && this.tags.length > 0
+    const completed = this.tweet && this.type && this.tags.length > 0
+    if (!completed && !this.tweet) return { completed, attribute: "tweet" }
+    if (!completed && !this.type) return { completed, attribute: "type" }
+    if (!completed && this.tags.length === 0)
+      return { completed, attribute: "tags" }
+    return { completed }
   }
 
   submit() {

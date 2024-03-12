@@ -1,13 +1,6 @@
-import "dotenv/config"
-import { startBot } from "./bot"
+import { startBot } from "./bot";
+import dotenv from "dotenv";
 
-function sayMyName(name: string): void {
-  if (name === "Heisenberg") {
-    console.log("You're right 👍")
-  } else {
-    console.log("You're wrong 👎")
-  }
-}
+dotenv.config();
 
-sayMyName("Heisenberg")
-startBot()
+startBot();

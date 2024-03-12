@@ -3,11 +3,17 @@ import { bot } from "./bot";
 import { authKeyboard } from "./keyboard/auth";
 
 bot.command("auth", (ctx) => {
-  // TODO check if user already signed in
-  ctx.reply("You will be directed to external web for sign in", authKeyboard);
+  const userId = ctx.update.message.from.id.toString();
+  const botUsername = ctx.botInfo.username;
+  ctx.reply(
+    "You will be directed to an external website for sign-in.",
+    authKeyboard(botUsername, userId)
+  );
 });
 
-bot.start((ctx) => ctx.reply("Welcome"));
+bot.start((ctx) =>
+  ctx.reply(`user's telegram info: ${JSON.stringify(ctx.update.message.chat)}`)
+);
 bot.help((ctx) => ctx.reply("Send me a sticker"));
 bot.on(message("sticker"), (ctx) => ctx.reply("👍"));
 bot.hears("hi", (ctx) => ctx.reply("Hey there"));

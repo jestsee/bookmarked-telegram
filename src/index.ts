@@ -1,14 +1,15 @@
 import { message } from 'telegraf/filters';
 import { bot } from './bot';
 import { authKeyboard } from './keyboard/auth';
-import { isValidUUID } from './utils';
+import { getTweetUrl, isValidUUID } from './utils';
 import { tokenExchange } from './api';
+import { WizardEnum } from './constants/enum';
 
 bot.command('auth', (ctx) => {
   const userId = ctx.update.message.from.id.toString();
   const botUsername = ctx.botInfo.username;
   ctx.reply(
-    'You will be directed to an external website for sign-in.',
+    'You will be directed to an external website for sign in.',
     authKeyboard(botUsername, userId)
   );
 });
@@ -19,7 +20,17 @@ bot.start(async (ctx) => {
     ctx.reply('Please wait...');
     const { accessToken } = await tokenExchange(ctx.payload);
     ctx.session = { accessToken };
-    ctx.reply('Successfully authenticated 🎉');
+    return ctx.reply('Successfully authenticated 🎉');
+  }
+  ctx.reply('Please sign in first for using this bot service');
+});
+
+// TODO implement middleware to check whether the token exist
+bot.on(message('text'), (ctx) => {
+  const tweetUrl = getTweetUrl(ctx.text);
+  if (tweetUrl) {
+    ctx.scene.session.bookmarkPayload = { url: tweetUrl };
+    ctx.scene.enter(WizardEnum.Bookmark);
   }
 });
 

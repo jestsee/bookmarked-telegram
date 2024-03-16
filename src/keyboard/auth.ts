@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf';
-import { BOOKMARKED_URL } from '../config';
+import { BOOKMARKED_URL } from '../constants/config';
 
 export const authKeyboard = (botUsername: string, telegramId: string) => {
   return Markup.inlineKeyboard([

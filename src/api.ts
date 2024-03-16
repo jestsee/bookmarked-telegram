@@ -1,4 +1,5 @@
-import { BOOKMARKED_URL } from './config';
+import { BOOKMARKED_URL } from './constants/config';
+import { CustomSession } from './types';
 
 const headers = new Headers({
   'Content-Type': 'application/json'
@@ -11,5 +12,5 @@ export const tokenExchange = async (token: string) => {
     headers
   });
 
-  return response.json() as Promise<{ accessToken: string }>;
+  return response.json() as Promise<CustomSession>;
 };

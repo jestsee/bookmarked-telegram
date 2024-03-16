@@ -1,29 +1,34 @@
-import { message } from "telegraf/filters";
-import { bot } from "./bot";
-import { authKeyboard } from "./keyboard/auth";
+import { message } from 'telegraf/filters';
+import { bot } from './bot';
+import { authKeyboard } from './keyboard/auth';
+import { isValidUUID } from './utils';
 
-bot.command("auth", (ctx) => {
+bot.command('auth', (ctx) => {
   const userId = ctx.update.message.from.id.toString();
   const botUsername = ctx.botInfo.username;
   ctx.reply(
-    "You will be directed to an external website for sign-in.",
+    'You will be directed to an external website for sign-in.',
     authKeyboard(botUsername, userId)
   );
 });
 
-bot.start((ctx) =>
-  ctx.reply(`user's telegram info: ${JSON.stringify(ctx.update.message.chat)}`)
-);
-bot.help((ctx) => ctx.reply("Send me a sticker"));
-bot.on(message("sticker"), (ctx) => ctx.reply("👍"));
-bot.hears("hi", (ctx) => ctx.reply("Hey there"));
+bot.start((ctx) => {
+  if (ctx.payload && isValidUUID(ctx.payload)) {
+    // token exchange
+    // ctx.session = {token }
+  }
+});
+
+bot.help((ctx) => ctx.reply('Send me a sticker'));
+bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
+bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 
 bot.launch();
-console.log("🤖 Starting bot...");
+console.log('🤖 Starting bot...');
 
 // Enable graceful stop
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
 /**
  * TODO for production

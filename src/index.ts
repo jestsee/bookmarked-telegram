@@ -2,6 +2,7 @@ import { message } from 'telegraf/filters';
 import { bot } from './bot';
 import { authKeyboard } from './keyboard/auth';
 import { isValidUUID } from './utils';
+import { tokenExchange } from './api';
 
 bot.command('auth', (ctx) => {
   const userId = ctx.update.message.from.id.toString();
@@ -12,14 +13,17 @@ bot.command('auth', (ctx) => {
   );
 });
 
-bot.start((ctx) => {
+bot.start(async (ctx) => {
   if (ctx.payload && isValidUUID(ctx.payload)) {
     // token exchange
-    // ctx.session = {token }
+    ctx.reply('Please wait...');
+    const { accessToken } = await tokenExchange(ctx.payload);
+    ctx.session = { accessToken };
+    ctx.reply('Successfully authenticated 🎉');
   }
 });
 
-bot.help((ctx) => ctx.reply('Send me a sticker'));
+bot.help((ctx) => ctx.reply(ctx.session?.accessToken ?? 'nah'));
 bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
 bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 

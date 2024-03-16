@@ -1,7 +1,7 @@
 import { Context } from 'telegraf';
 
 export interface SessionData {
-  token: string;
+  accessToken: string;
 }
 
 export interface CustomContext extends Context {

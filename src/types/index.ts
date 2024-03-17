@@ -5,6 +5,7 @@ export type BookmarkType = 'tweet' | 'thread';
 export interface BookmarkPayload {
   url?: string;
   type?: BookmarkType;
+  tags?: string[];
 }
 
 export interface BookmarkWizardSession extends Scenes.WizardSessionData {

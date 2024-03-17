@@ -30,7 +30,7 @@ bot.on(message('text'), (ctx) => {
   const tweetUrl = getTweetUrl(ctx.text);
   if (tweetUrl) {
     ctx.scene.session.bookmarkPayload = { url: tweetUrl };
-    ctx.scene.enter(WizardEnum.Bookmark);
+    ctx.scene.enter(WizardEnum.BOOKMARK);
   }
 });
 

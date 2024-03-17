@@ -1,3 +1,8 @@
 export enum WizardEnum {
-  Bookmark = 'Bookmark'
+  BOOKMARK = 'Bookmark'
+}
+
+export enum BookmarkTypeEnum {
+  TWEET = 'tweet',
+  THREAD = 'thread'
 }

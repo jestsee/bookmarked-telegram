@@ -1,8 +1,10 @@
 import { Context, Scenes } from 'telegraf';
 
+export type BookmarkType = 'tweet' | 'thread';
+
 export interface BookmarkPayload {
   url?: string;
-  type?: 'tweet' | 'thread';
+  type?: BookmarkType;
 }
 
 export interface BookmarkWizardSession extends Scenes.WizardSessionData {

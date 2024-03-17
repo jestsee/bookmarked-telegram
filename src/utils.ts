@@ -7,7 +7,7 @@ export const isValidUUID = (value: string) => {
 };
 
 export const getTweetUrl = (value: string) => {
-  const regexExp = /(twitter\.com\/[^\s]+)/;
+  const regexExp = /(twitter|x\.com\/[^\s]+)/;
   const matches = value.match(regexExp);
   return matches ? matches[0] : null;
 };

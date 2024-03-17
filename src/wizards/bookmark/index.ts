@@ -42,12 +42,13 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
   },
 
   async (ctx) => {
+    await ctx.reply('Please wait...⏳');
     await ctx.reply(
-      `nih ${JSON.stringify(
-        ctx.scene.session.bookmarkPayload,
-        null,
-        2
-      )}\n${JSON.stringify(ctx.session?.accessToken)}`
+      `Processing your bookmark\n
+        url: ${ctx.scene.session.bookmarkPayload.url}
+        type: ${ctx.scene.session.bookmarkPayload.type}
+        tags: ${ctx.scene.session.bookmarkPayload.tags?.join(', ') ?? '-'}
+      `
     );
     return await ctx.scene.leave();
   }

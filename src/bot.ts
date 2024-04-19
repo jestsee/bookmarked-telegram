@@ -18,7 +18,7 @@ export const bot = new Telegraf<CustomContext>(BOT_TOKEN);
 const app = express();
 
 app.get('/', (req, res) => {
-  bot.telegram.sendMessage(5721146079, 'oioioio');
+  bot.telegram.sendMessage(5721146079, 'annyeong');
   res.send('Uses This Bot');
 });
 

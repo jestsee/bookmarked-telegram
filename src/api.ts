@@ -1,4 +1,4 @@
-import { BOOKMARKED_URL } from './constants/config';
+import { BOOKMARKED_URL, BOT_URL } from './constants/config';
 import { BookmarkPayload, CustomSession } from './types';
 
 export const tokenExchange = async (token: string) => {
@@ -19,9 +19,16 @@ export const bookmark = async (payload: BookmarkPayload, token: string) => {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
   });
+
+  const body = {
+    ...payload,
+    url: 'https://' + payload.url,
+    callbackUrl: `${BOT_URL}/notification`
+  };
+
   const response = await fetch(`${BOOKMARKED_URL}/api/bookmark-tweet`, {
     method: 'POST',
-    body: JSON.stringify({ ...payload, url: 'https://' + payload.url }),
+    body: JSON.stringify(body),
     headers
   });
 

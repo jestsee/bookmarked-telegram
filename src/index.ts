@@ -35,14 +35,15 @@ bot.on(message('text'), (ctx) => {
 });
 
 bot.help((ctx) => ctx.reply(ctx.session?.accessToken ?? 'nah'));
-bot.on(message('sticker'), (ctx) => ctx.reply('👍'));
-bot.hears('hi', (ctx) => ctx.reply('Hey there'));
 
 bot.launch();
 console.log('🤖 Starting bot...');
 
 // Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGINT', () => {
+  bot.stop('SIGINT');
+  process.exit(0);
+});
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
 
 /**

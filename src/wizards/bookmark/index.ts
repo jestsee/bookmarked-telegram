@@ -52,11 +52,11 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
     console.log(JSON.stringify(resp, null, 2));
 
     await ctx.reply(
-      `Processing your bookmark\n
-        url: ${ctx.scene.session.bookmarkPayload.url}
-        type: ${ctx.scene.session.bookmarkPayload.type}
-        tags: ${ctx.scene.session.bookmarkPayload.tags?.join(', ') ?? '-'}
-      We will notify you when it's finish
+      `Processing your bookmark 📖\nurl: ${
+        ctx.scene.session.bookmarkPayload.url
+      }\ntype: ${ctx.scene.session.bookmarkPayload.type}\ntags: ${
+        ctx.scene.session.bookmarkPayload.tags?.join(', ') ?? '-'
+      }\nWe will notify you when it's finish
       `
     );
     return await ctx.scene.leave();

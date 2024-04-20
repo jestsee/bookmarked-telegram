@@ -4,6 +4,7 @@ import { authKeyboard } from './keyboard/auth';
 import { getTweetUrl, isValidUUID } from './utils';
 import { tokenExchange } from './api';
 import { WizardEnum } from './constants/enum';
+import { main } from './webhook';
 
 bot.command('auth', (ctx) => {
   const userId = ctx.update.message.from.id.toString();
@@ -36,8 +37,7 @@ bot.on(message('text'), (ctx) => {
 
 bot.help((ctx) => ctx.reply(ctx.session?.accessToken ?? 'nah'));
 
-bot.launch();
-console.log('🤖 Starting bot...');
+main();
 
 // Enable graceful stop
 process.once('SIGINT', () => {

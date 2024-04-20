@@ -22,3 +22,17 @@ export interface CustomContext extends Context {
   scene: Scenes.SceneContextScene<CustomContext, BookmarkWizardSession>;
   wizard: Scenes.WizardContextWizard<CustomContext>;
 }
+
+export interface AdditionalData {
+  messageId: number;
+  chatId: number;
+}
+
+export interface BookmarkResponse {
+  author: string;
+  notionPageUrl: string;
+  text: string;
+  tweetUrl: string;
+  username: string;
+  additionalData: AdditionalData;
+}

@@ -43,22 +43,30 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
   },
 
   async (ctx) => {
-    await ctx.reply('Please wait...⏳');
+    const { tags, type, url } = ctx.scene.session.bookmarkPayload;
+    const { message_id } = await ctx.reply(
+      `Bookmarking [${type}](${url})\ntags: ${
+        tags?.join(', ') ?? '-'
+      }\nWe will notify you when it's finish🔥`,
+      {
+        parse_mode: 'Markdown',
+        link_preview_options: {
+          show_above_text: true,
+          prefer_small_media: true
+        }
+      }
+    );
 
     const resp = await bookmark(
       ctx.scene.session.bookmarkPayload,
-      ctx.session?.accessToken!
+      ctx.session?.accessToken!,
+      {
+        messageId: message_id,
+        chatId: ctx.chat?.id!
+      }
     );
     console.log(JSON.stringify(resp, null, 2));
 
-    await ctx.reply(
-      `Processing your bookmark 📖\nurl: ${
-        ctx.scene.session.bookmarkPayload.url
-      }\ntype: ${ctx.scene.session.bookmarkPayload.type}\ntags: ${
-        ctx.scene.session.bookmarkPayload.tags?.join(', ') ?? '-'
-      }\nWe will notify you when it's finish
-      `
-    );
     return await ctx.scene.leave();
   }
 );

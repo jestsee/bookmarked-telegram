@@ -1,5 +1,5 @@
 import { BOOKMARKED_URL, BOT_URL } from './constants/config';
-import { BookmarkPayload, CustomSession } from './types';
+import { AdditionalData, BookmarkPayload, CustomSession } from './types';
 
 export const tokenExchange = async (token: string) => {
   const headers = new Headers({
@@ -14,7 +14,11 @@ export const tokenExchange = async (token: string) => {
   return response.json() as Promise<CustomSession>;
 };
 
-export const bookmark = async (payload: BookmarkPayload, token: string) => {
+export const bookmark = async (
+  payload: BookmarkPayload,
+  token: string,
+  additionalData: AdditionalData
+) => {
   const headers = new Headers({
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
@@ -23,6 +27,7 @@ export const bookmark = async (payload: BookmarkPayload, token: string) => {
   const body = {
     ...payload,
     url: 'https://' + payload.url,
+    additionalData,
     callbackUrl: `${BOT_URL}/notification`
   };
 

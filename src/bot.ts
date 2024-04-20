@@ -1,7 +1,7 @@
 import { Scenes, Telegraf, session } from 'telegraf';
 import 'dotenv/config';
 import { commands } from './commands';
-import { BOT_TOKEN, PORT } from './constants/config';
+import { BOT_TOKEN } from './constants/config';
 import { CustomContext } from './types';
 import bookmarkWizard from './wizards/bookmark';
 

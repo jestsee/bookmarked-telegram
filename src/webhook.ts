@@ -1,6 +1,6 @@
 import express from 'express';
 import { bot } from './bot';
-import { PORT, WEBHOOK_URL } from './constants/config';
+import { BOT_URL, PORT } from './constants/config';
 import { BookmarkResponse } from './types';
 
 export async function main() {
@@ -9,7 +9,7 @@ export async function main() {
   // bot.launch();
   console.log('🤖 Starting bot...');
   // Set the bot API endpoint
-  app.use(await bot.createWebhook({ domain: WEBHOOK_URL }));
+  app.use(await bot.createWebhook({ domain: BOT_URL }));
   app.use(express.json());
 
   app.get('/', (req, res) => {

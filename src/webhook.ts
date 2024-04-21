@@ -6,11 +6,13 @@ import { BookmarkResponse } from './types';
 export async function main() {
   const app = express();
 
+  // bot
+  //   .launch({ webhook: { domain: BOT_URL } })
+  //   .then(() => console.log('🤖 Starting bot...'));
+
   app.use(express.json());
 
-  // bot.launch({ webhook: { domain: BOT_URL } });
-
-  app.use(await bot.createWebhook({ domain: BOT_URL, path: '/bot-pls' }));
+  app.use(await bot.createWebhook({ domain: BOT_URL, path: '/bot' }));
 
   app.get('/hi', (req, res) => {
     bot.telegram.sendMessage(5721146079, 'annyeong');

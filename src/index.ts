@@ -7,6 +7,9 @@ import { WizardEnum } from './constants/enum';
 import { main } from './webhook';
 
 bot.command('auth', (ctx) => {
+  if (ctx.session?.accessToken) {
+    return ctx.reply('You have already authenticated');
+  }
   const userId = ctx.update.message.from.id.toString();
   const botUsername = ctx.botInfo.username;
   ctx.reply(
@@ -30,6 +33,10 @@ bot.start(async (ctx) => {
 bot.on(message('text'), (ctx) => {
   const tweetUrl = getTweetUrl(ctx.text);
   if (tweetUrl) {
+    if (!ctx.session?.accessToken) {
+      return ctx.reply('Please sign in first for using this bot service');
+    }
+
     ctx.scene.session.bookmarkPayload = { url: tweetUrl };
     ctx.scene.enter(WizardEnum.BOOKMARK);
   }

@@ -20,7 +20,7 @@ export const getBookmarkType = (value: string): BookmarkType | null => {
 
 export const execute = (ctx: CustomContext) => {
   const next = async () => {
-    await ctx.wizard.next();
+    ctx.wizard.next();
   };
   typeof ctx.wizard.step === 'function' && ctx.wizard.step(ctx, next);
 };

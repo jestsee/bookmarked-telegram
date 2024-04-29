@@ -12,7 +12,7 @@ bot.command('auth', (ctx) => {
   }
   const userId = ctx.update.message.from.id.toString();
   const botUsername = ctx.botInfo.username;
-  ctx.reply(
+  return ctx.reply(
     'You will be directed to an external website for sign in.',
     authKeyboard(botUsername, userId)
   );
@@ -21,16 +21,15 @@ bot.command('auth', (ctx) => {
 bot.start(async (ctx) => {
   if (ctx.payload && isValidUUID(ctx.payload)) {
     // token exchange
-    ctx.reply('Please wait...');
+    await ctx.reply('Please wait...');
     const { accessToken } = await tokenExchange(ctx.payload);
     ctx.session = { accessToken };
     return ctx.reply('Successfully authenticated 🎉');
   }
-  ctx.reply('Please sign in first for using this bot service');
+  return ctx.reply('Please sign in first for using this bot service');
 });
 
-// TODO implement middleware to check whether the token exist
-bot.on(message('text'), (ctx) => {
+bot.on(message('text'), async (ctx) => {
   const tweetUrl = getTweetUrl(ctx.text);
   if (tweetUrl) {
     if (!ctx.session?.accessToken) {
@@ -38,7 +37,7 @@ bot.on(message('text'), (ctx) => {
     }
 
     ctx.scene.session.bookmarkPayload = { url: tweetUrl };
-    ctx.scene.enter(WizardEnum.BOOKMARK);
+    return ctx.scene.enter(WizardEnum.BOOKMARK);
   }
 });
 
@@ -52,10 +51,3 @@ process.once('SIGINT', () => {
   process.exit(0);
 });
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
-
-/**
- * TODO for production
- * need to compile first
- * then run its .js compiled file
- * deploy tutorial: https://blog.devgenius.io/deploying-a-telegram-bot-developed-with-telegraf-js-aef341ec0d4f
- */

@@ -28,7 +28,7 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
   bookmarkTypeHandler,
 
   async (ctx) => {
-    ctx.reply('Do you want to add some tags?', yesNoKeyboard);
+    await ctx.reply('Do you want to add some tags?', yesNoKeyboard);
     ctx.wizard.next();
   },
 
@@ -67,7 +67,7 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
     );
     console.log(JSON.stringify(resp, null, 2));
 
-    return await ctx.scene.leave();
+    return ctx.scene.leave();
   }
 );
 

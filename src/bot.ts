@@ -24,12 +24,13 @@ const store = Postgres<CustomSession>({
   }
 });
 
-const bot = new Telegraf<CustomContext>(BOT_TOKEN);
+const bot = new Telegraf<CustomContext>(BOT_TOKEN, {
+  telegram: { webhookReply: false }
+});
 
 const stage = new Scenes.Stage<CustomContext>([bookmarkWizard]);
 
-bot.use(session({ store }));
-bot.use(stage.middleware());
+bot.use(session(), stage.middleware());
 bot.telegram.setMyCommands(commands);
 
 export { bot };

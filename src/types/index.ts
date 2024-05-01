@@ -6,6 +6,7 @@ export interface BookmarkPayload {
   url?: string;
   type?: BookmarkType;
   tags?: string[];
+  messageId: number;
 }
 
 export interface BookmarkWizardSession extends Scenes.WizardSessionData {

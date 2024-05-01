@@ -45,22 +45,15 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
 
   async (ctx) => {
     const { bookmarkPayload } = ctx.scene.session;
-    const { message_id } = await ctx.reply(
-      constructReplyMessage(bookmarkPayload),
-      {
-        parse_mode: 'Markdown',
-        link_preview_options: {
-          show_above_text: true,
-          prefer_small_media: true
-        }
-      }
-    );
+    await ctx.reply(constructReplyMessage(bookmarkPayload), {
+      reply_parameters: { message_id: bookmarkPayload.messageId }
+    });
 
     const resp = await bookmark(
       ctx.scene.session.bookmarkPayload,
       ctx.session?.accessToken!,
       {
-        messageId: message_id,
+        messageId: bookmarkPayload.messageId,
         chatId: ctx.chat?.id!
       }
     );

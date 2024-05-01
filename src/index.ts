@@ -41,7 +41,10 @@ bot.on(message('text'), async (ctx) => {
   const tweetUrl = getTweetUrl(ctx.text);
   if (tweetUrl) {
     await ctx.scene.leave(); // leave the current scene
-    ctx.scene.session.bookmarkPayload = { url: tweetUrl };
+    ctx.scene.session.bookmarkPayload = {
+      url: tweetUrl,
+      messageId: ctx.message.message_id
+    };
     return ctx.scene.enter(WizardEnum.BOOKMARK);
   }
 });

@@ -1,10 +1,10 @@
 import { message } from 'telegraf/filters';
 import { bot } from './bot';
 import { authKeyboard } from './keyboard/auth';
-import { getTweetUrl, isValidUUID } from './utils';
-import { tokenExchange } from './api';
+import { getTweetUrl } from './utils';
 import { WizardEnum } from './constants/enum';
 import { main } from './webhook';
+import { pool } from './db/pool';
 
 bot.command('auth', (ctx) => {
   if (ctx.session?.accessToken) {
@@ -19,23 +19,14 @@ bot.command('auth', (ctx) => {
 });
 
 bot.start(async (ctx) => {
-  if (ctx.payload && isValidUUID(ctx.payload)) {
-    // token exchange
-    await ctx.reply('Please wait...');
-    const { accessToken } = await tokenExchange(ctx.payload);
-    ctx.session = { accessToken };
+  if (ctx.payload && ctx.payload === 'success') {
     return ctx.reply('Successfully authenticated 🎉');
   }
-  return ctx.reply('Please sign in first for using this bot service');
 });
 
 bot.on(message('text'), async (ctx) => {
   const tweetUrl = getTweetUrl(ctx.text);
   if (tweetUrl) {
-    if (!ctx.session?.accessToken) {
-      return ctx.reply('Please sign in first for using this bot service');
-    }
-
     ctx.scene.session.bookmarkPayload = { url: tweetUrl };
     return ctx.scene.enter(WizardEnum.BOOKMARK);
   }
@@ -47,7 +38,9 @@ main();
 
 // Enable graceful stop
 process.once('SIGINT', () => {
+  console.log('shutting down...😴');
   bot.stop('SIGINT');
+  pool.end();
   process.exit(0);
 });
 process.once('SIGTERM', () => bot.stop('SIGTERM'));

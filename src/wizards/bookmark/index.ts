@@ -6,7 +6,8 @@ import { execute, getBookmarkType } from '../../utils';
 import bookmarkTypeHandler from './bookmark-type.composer';
 import { yesNoKeyboard } from '../../keyboard/yes-no-options';
 import tagHandler from './tag.composer';
-import { bookmark } from '../../api';
+import { bookmark } from '../../api/bookmark';
+import { constructReplyMessage } from './utils';
 
 /**
  * Bookmark Wizard
@@ -43,11 +44,9 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
   },
 
   async (ctx) => {
-    const { tags, type, url } = ctx.scene.session.bookmarkPayload;
+    const { bookmarkPayload } = ctx.scene.session;
     const { message_id } = await ctx.reply(
-      `Bookmarking [${type}](${url})\ntags: ${
-        tags?.join(', ') ?? '-'
-      }\nWe will notify you when it's finish🔥`,
+      constructReplyMessage(bookmarkPayload),
       {
         parse_mode: 'Markdown',
         link_preview_options: {

@@ -5,9 +5,7 @@ import { BookmarkResponse } from './types';
 
 export async function main() {
   const app = express();
-
   app.use(express.json());
-
   app.use(await bot.createWebhook({ domain: BOT_URL, path: '/bot' }));
 
   app.get('/hi', (req, res) => {

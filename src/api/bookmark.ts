@@ -1,18 +1,5 @@
-import { BOOKMARKED_URL, BOT_URL } from './constants/config';
-import { AdditionalData, BookmarkPayload, CustomSession } from './types';
-
-export const tokenExchange = async (token: string) => {
-  const headers = new Headers({
-    'Content-Type': 'application/json'
-  });
-  const response = await fetch(`${BOOKMARKED_URL}/api/token`, {
-    method: 'POST',
-    body: JSON.stringify({ token }),
-    headers
-  });
-
-  return response.json() as Promise<CustomSession>;
-};
+import { BOOKMARKED_URL, BOT_URL } from '../constants/config';
+import { AdditionalData, BookmarkPayload } from '../types';
 
 export const bookmark = async (
   payload: BookmarkPayload,

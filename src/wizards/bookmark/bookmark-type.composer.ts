@@ -1,7 +1,7 @@
 import { Composer } from 'telegraf';
 import { CustomContext } from '../../types';
 import { BookmarkTypeEnum } from '../../constants/enum';
-import { execute } from '../../utils';
+import { execute } from '../../utils/utils';
 
 const bookmarkTypeHandler = new Composer<CustomContext>();
 

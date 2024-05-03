@@ -29,11 +29,18 @@ export interface AdditionalData {
   chatId: number;
 }
 
-export interface BookmarkResponse {
-  author: string;
-  notionPageUrl: string;
-  text: string;
-  tweetUrl: string;
-  username: string;
-  additionalData: AdditionalData;
-}
+export type BookmarkResponse =
+  | {
+      type: 'success';
+      author: string;
+      notionPageUrl: string;
+      text: string;
+      tweetUrl: string;
+      username: string;
+      additionalData: AdditionalData;
+    }
+  | {
+      type: 'error';
+      error: string;
+      additionalData: AdditionalData;
+    };

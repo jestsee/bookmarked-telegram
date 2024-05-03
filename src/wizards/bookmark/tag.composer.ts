@@ -1,7 +1,7 @@
 import { Composer } from 'telegraf';
 import { CustomContext } from '../../types';
 import { ResponseOptionsEnum } from '../../constants/enum';
-import { execute } from '../../utils';
+import { execute } from '../../utils/utils';
 
 const tagHandler = new Composer<CustomContext>();
 

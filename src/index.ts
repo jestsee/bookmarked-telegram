@@ -1,7 +1,7 @@
 import { message } from 'telegraf/filters';
 import { bot } from './bot';
 import { authKeyboard } from './keyboard/auth';
-import { getTweetUrl } from './utils';
+import { getTweetUrl } from './utils/utils';
 import { WizardEnum } from './constants/enum';
 import { main } from './webhook';
 import { pool } from './db/pool';

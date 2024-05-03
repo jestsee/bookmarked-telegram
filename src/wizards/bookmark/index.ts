@@ -2,7 +2,7 @@ import { Scenes } from 'telegraf';
 import { WizardEnum } from '../../constants/enum';
 import { CustomContext } from '../../types';
 import { bookmarkTypeKeyboard } from '../../keyboard/bookmark-type';
-import { execute, getBookmarkType } from '../../utils';
+import { execute, getBookmarkType } from '../../utils/utils';
 import bookmarkTypeHandler from './bookmark-type.composer';
 import { yesNoKeyboard } from '../../keyboard/yes-no-options';
 import tagHandler from './tag.composer';

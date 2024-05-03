@@ -8,7 +8,7 @@ export const constructReplyMessage = ({ type, tags }: ReplyMessagePayload) => {
   if (tags?.length && tags.length > 0) {
     message += `tags: ${tags.join(', ')}\n`;
   }
-  message += `We will notify you when it's finish 🔥`;
+  message += `We will notify you when it's finished 🔥`;
 
   return message;
 };

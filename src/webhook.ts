@@ -1,7 +1,7 @@
 import express from 'express';
 import { bot } from './bot';
 import { BOT_URL, PORT } from './constants/config';
-import { BookmarkResponse } from './types';
+import { handleError, sendSuccessMessage } from './utils/helper';
 
 export async function main() {
   const app = express();
@@ -13,18 +13,14 @@ export async function main() {
     res.send('Uses This Bot');
   });
 
-  app.post('/notification', (req, res) => {
+  app.post('/notification', async (req, res) => {
     console.log('masok notif', req.body);
-    const { additionalData, ...rest } = req.body as BookmarkResponse;
-    bot.telegram.sendMessage(
-      additionalData.chatId,
-      `Success! ✅ Your bookmark has been saved. Access it [here](${rest.notionPageUrl})`,
-      {
-        reply_parameters: { message_id: additionalData.messageId },
-        parse_mode: 'Markdown'
-      }
-    );
-    res.send('Received');
+
+    if (req.body.type === 'success') {
+      return sendSuccessMessage(req.body);
+    }
+
+    return handleError(req.body);
   });
 
   app.listen(PORT, () => console.log('Listening on port', PORT));

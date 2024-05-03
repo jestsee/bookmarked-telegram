@@ -1,4 +1,4 @@
-import { BookmarkType, CustomContext } from './types';
+import { BookmarkType, CustomContext } from '../types';
 
 export const getTweetUrl = (value: string) => {
   const regexExp = /(?:twitter\.com|x\.com)\/[^\s]+/;

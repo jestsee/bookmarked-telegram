@@ -1,12 +1,12 @@
-import { BotCommand } from "telegraf/types";
+import { BotCommand } from 'telegraf/types';
 
 export const commands: BotCommand[] = [
   {
-    command: "auth",
-    description: "Need to be authenticated first in order to use this service",
+    command: 'auth',
+    description: 'for authentication'
   },
   {
-    command: "profile",
-    description: "Check current signed in account profile",
-  },
+    command: 'connect',
+    description: 'connect your account to your Notion'
+  }
 ];

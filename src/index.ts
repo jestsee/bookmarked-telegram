@@ -6,6 +6,7 @@ import { WizardEnum } from './constants/enum';
 import { main } from './webhook';
 import { pool } from './db/pool';
 import { getToken } from './db/get-token';
+import { connectToNotionKeyboard } from './keyboard/connectToNotion';
 
 bot.command('auth', async (ctx) => {
   if (ctx.session?.accessToken) {
@@ -24,6 +25,13 @@ bot.command('auth', async (ctx) => {
   return ctx.reply(
     'You will be directed to an external website for sign in.',
     authKeyboard(botUsername, userId)
+  );
+});
+
+bot.command('connect', async (ctx) => {
+  return ctx.reply(
+    'You will be directed to an external website for Notion authorization.',
+    connectToNotionKeyboard(ctx.botInfo.username)
   );
 });
 

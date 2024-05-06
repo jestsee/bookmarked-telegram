@@ -15,6 +15,7 @@ export async function main() {
 
   app.post('/notification', async (req, res) => {
     console.log('masok notif', req.body);
+    res.send('accepted');
 
     if (req.body.type === 'success') {
       return sendSuccessMessage(req.body);

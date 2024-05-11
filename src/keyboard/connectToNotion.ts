@@ -1,12 +1,12 @@
 import { Markup } from 'telegraf';
-import { NOTION_AUTHORIZATION_URL } from '../constants/config';
+import { BOOKMARKED_URL } from '../constants/config';
 
 export const connectToNotionKeyboard = (botUsername: string) => {
-  const encoded = encodeURIComponent(`t.me/${botUsername}`);
+  const botUrl = `t.me/${botUsername}`;
   return Markup.inlineKeyboard([
     Markup.button.url(
       'Connect to Notion',
-      `${NOTION_AUTHORIZATION_URL}state=${encoded}`
+      `${BOOKMARKED_URL}/connect-to-notion?callbackUrl=${botUrl}`
     )
   ]);
 };

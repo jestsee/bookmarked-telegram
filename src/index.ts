@@ -7,6 +7,7 @@ import { main } from './webhook';
 import { pool } from './db/pool';
 import { getToken } from './db/get-token';
 import { connectToNotionKeyboard } from './keyboard/connectToNotion';
+import { startMessage } from './constants/startMessage';
 
 bot.command('auth', async (ctx) => {
   if (ctx.session?.accessToken) {
@@ -36,8 +37,11 @@ bot.command('connect', async (ctx) => {
 });
 
 bot.start(async (ctx) => {
-  if (ctx.payload && ctx.payload === 'success') {
-    return ctx.reply('Successfully authenticated 🎉');
+  if (ctx.payload) {
+    return ctx.reply(
+      startMessage[ctx.payload as keyof typeof startMessage] ??
+        'Operation was successful ✅'
+    );
   }
 
   return ctx.reply(

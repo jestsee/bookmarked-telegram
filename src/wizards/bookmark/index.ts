@@ -49,15 +49,20 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
       reply_parameters: { message_id: bookmarkPayload.messageId }
     });
 
-    const resp = await bookmark(
+    const response = (await bookmark(
       ctx.scene.session.bookmarkPayload,
       ctx.session?.accessToken!,
       {
         messageId: bookmarkPayload.messageId,
         chatId: ctx.chat?.id!
       }
-    );
-    console.log(JSON.stringify(resp, null, 2));
+    )) as any;
+
+    if (response.code === 'BAD_REQUEST') {
+      await ctx.reply(response.message ?? 'Something went wrong');
+    }
+
+    console.log(JSON.stringify(response, null, 2));
 
     return ctx.scene.leave();
   }

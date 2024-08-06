@@ -8,6 +8,7 @@ import { yesNoKeyboard } from '../../keyboard/yes-no-options';
 import tagHandler from './tag.composer';
 import { bookmark } from '../../api/bookmark';
 import { constructReplyMessage } from './utils';
+import { removeSession } from '../../db/get-token';
 
 /**
  * Bookmark Wizard
@@ -60,6 +61,12 @@ const bookmarkWizard = new Scenes.WizardScene<CustomContext>(
 
     if (response.code === 'BAD_REQUEST') {
       await ctx.reply(response.message ?? 'Something went wrong');
+    }
+
+    if (response.code === 'UNAUTHORIZED') {
+      await removeSession(ctx.from?.id.toString() ?? '');
+      ctx.session = { accessToken: undefined }; // remove the token from the session
+      return ctx.reply('Your session has expired. Please sign in again');
     }
 
     console.log(JSON.stringify(response, null, 2));

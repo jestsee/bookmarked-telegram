@@ -5,7 +5,7 @@ import { getTweetUrl } from './utils/utils';
 import { WizardEnum } from './constants/enum';
 import { main } from './webhook';
 import { pool } from './db/pool';
-import { getToken } from './db/get-token';
+import { getSession } from './db/get-token';
 import { connectToNotionKeyboard } from './keyboard/connectToNotion';
 import { startMessage } from './constants/startMessage';
 
@@ -14,7 +14,7 @@ bot.command('auth', async (ctx) => {
     return ctx.reply('You have already authenticated');
   }
 
-  const accessToken = await getToken(ctx.from?.id.toString() ?? '');
+  const accessToken = await getSession(ctx.from?.id.toString() ?? '');
   if (accessToken) {
     ctx.session = { accessToken };
     return ctx.reply('You have already authenticated');

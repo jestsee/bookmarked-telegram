@@ -1,6 +1,6 @@
 import { pool } from './pool';
 
-export const getToken = async (telegramId: string): Promise<string> => {
+export const getSession = async (telegramId: string): Promise<string> => {
   try {
     const result = await pool.query(
       'SELECT session FROM "connectedAccount" WHERE "accountId" = $1::text',
@@ -10,6 +10,18 @@ export const getToken = async (telegramId: string): Promise<string> => {
     return result.rows[0]?.session;
   } catch (error) {
     console.error('Error fetching token', error);
+    throw error;
+  }
+};
+
+export const removeSession = async (telegramId: string): Promise<void> => {
+  try {
+    await pool.query(
+      'DELETE FROM "connectedAccount" WHERE "accountId" = $1::text',
+      [telegramId]
+    );
+  } catch (error) {
+    console.error('Error removing token', error);
     throw error;
   }
 };

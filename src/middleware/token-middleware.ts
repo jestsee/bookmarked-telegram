@@ -1,10 +1,10 @@
 import { Middleware } from 'telegraf';
 import { CustomContext } from '../types';
-import { getToken } from '../db/get-token';
+import { getSession } from '../db/get-token';
 
 const tokenMiddleware: Middleware<CustomContext> = async (ctx, next) => {
   if (!ctx.session?.accessToken && ctx.text !== '/auth') {
-    const accessToken = await getToken(ctx.from?.id.toString() ?? '');
+    const accessToken = await getSession(ctx.from?.id.toString() ?? '');
     console.log('masok token middleware', accessToken);
 
     if (!accessToken) {

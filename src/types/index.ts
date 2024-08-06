@@ -15,7 +15,7 @@ export interface BookmarkWizardSession extends Scenes.WizardSessionData {
 
 export interface CustomSession
   extends Scenes.WizardSession<BookmarkWizardSession> {
-  accessToken: string;
+  accessToken?: string;
 }
 
 export interface CustomContext extends Context {
